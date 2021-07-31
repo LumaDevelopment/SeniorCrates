@@ -1,0 +1,12 @@
+main: net.lumadevelopment.crates.SeniorCrates
+name: SeniorCrates
+version: 1.0
+author: Sentinel
+
+depends: [NBTAPI]
+
+commands:
+  crate:
+    usage: /<command>
+    description: Main SeniorCrates command.
+    aliases: [crates]

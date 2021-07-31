@@ -1,0 +1,63 @@
+#Prefix that can be displayed in all configurable messages by using the placeholder "~prefix~" (without the quotes)
+#This prefix also goes before the crate name in crate editing inventories
+#It is recommended, to avoid conflicts or exploits, to set this to something other than ""
+Prefix: "&8[&bSenior&3Crates&8] &r"
+
+#Credentials for connecting to the SQL server required for player data
+SQL:
+  IP: localhost
+  Port: '3306'
+  DatabaseName: database
+  Username: root
+  Password: password
+
+#This is the amount of crates a player can open per day (unless they have the 'crates.bypass' permission)
+CratesPerDay: 5
+
+#This is the amount of seconds a player will have to wait until they can open another crate after opening one (unless they have the 'crates.bypass' permission)
+Cooldown: 15
+
+#Max amount of items that can be put in a single crate type. Max is 54
+MaxItemsPerCrate: 10
+
+#This is the amount of crates a player can open per day (unless they have the 'crates.bypass' permission)
+CratesPerDay: 5
+
+#This is the amount of seconds a player will have to wait until they can open another crate after opening one (unless they have the 'crates.bypass' permission)
+Cooldown: 15
+
+#Max amount of items that can be put in a single crate type. Max is 54
+MaxItemsPerCrate: 10
+
+#Configure the messages from the plugin
+Messages:
+  #Controls what is displayed in the /help command
+  Help:
+    Start: |-
+      ~prefix~&aThese are the usages of the /crate command:
+      &e- /crate or /crate help - This command.
+    Newday: "&e- /crate newday - Resets all crates per day limits."
+    List: "&e- /crate list - Lists all existing crates."
+    Create: "&e- /crate create <name> - Opens a GUI that allows you to creates a new type of crate."
+    Edit: "&e- /crate edit <name> - Opens a GUI that allows you to edit an existing type of crate."
+    Delete: "&e- /crate delete <name> - Deletes the defined type of crate."
+    Give: "&e- /crate give <player> <crate> <amount> - Gives <player> <amount> of crate type <crate>."
+  #Successful Result
+  NewDay: ~prefix~&aDaily crate limit reset!
+  ListCrates: "~prefix~&eThe following crates exist:&r"
+  CreateCrate: ~prefix~&eCrate '&r~cratename~&e' has been created!
+  EditCrate: ~prefix~&eCrate '&r~cratename~&e' has been edited!
+  DeleteCrate: ~prefix~&eCrate '&r~cratename~&e' has been deleted!
+  GiveCrate: ~prefix~&e~playername~&a has been given &e~amount~x ~cratename~&a!
+  CrateOpened: ~prefix~&aYou have opened '&r~cratename~&a'!
+  #Error Messages
+  InvalidCommandUsage: ~prefix~&cInvalid command usage! Use '/crate help' to see usages!
+  InsufficientPermissions: ~prefix~&cYou do not have permission to use this command!
+  MustBePlayer: ~prefix~&cYou must be a player to use this command!
+  CrateAlreadyExists: ~prefix~&cCannot create crate '&r~cratename~&c', it already exists!
+  CrateDoesntExist: ~prefix~&cCrate '&r~cratename~&c' doesn't exist!
+  MIPCTooBig: ~prefix~&cThe max items per crate is too large, please reduce it below 55!
+  PlayerNotOnline: ~prefix~&cPlayer '&r~playername~&c' does not exist or is not online!
+  AmountNotValid: ~prefix~&cAmount &r~amount~&c is not a valid integer!
+  DelayNotOver: ~prefix~&cYou must wait ~time~s before opening another crate!
+  DailyLimitReached: ~prefix~&cYou are not able to open any more crates today!
