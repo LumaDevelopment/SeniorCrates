@@ -18,6 +18,7 @@ public class UserDataMgr {
 	 * Assists initialization of UserDataMgr instances
 	 * Instances allow internal methods to be used without resorting to 'static' for complex methods
 	 */
+	
 	public UserDataMgr(ConfigMgr cmgr) {
 		this.cmgr = cmgr;
 	}
@@ -66,6 +67,7 @@ public class UserDataMgr {
 	
 	//Closes connection without having to put in try/catches everywhere SQL is used
 	public void closeConn(Connection conn) {
+		
 		try {
 			
 			//If connection is null (like would be at first launch), don't throw more errors
@@ -85,6 +87,7 @@ public class UserDataMgr {
 			return;
 			
 		}
+		
 	}
 	
 	//Function to make sure the 'seniorcrates' table is present
@@ -256,6 +259,7 @@ public class UserDataMgr {
 	
 	//Resets the amount of crates every user can open today
 	public void resetLeftInDay(Connection conn) {
+		
 		try {
 			
 			if(conn == null) {
@@ -283,6 +287,7 @@ public class UserDataMgr {
 			return;
 			
 		}
+		
 	}
 	
 	//Checks if the delay to open a crate is over
@@ -401,6 +406,7 @@ public class UserDataMgr {
 	
 	//Sets the crate open delay time for a player
 	public void setDelayTime(Connection conn, UUID u) {
+		
 		try {
 			
 			String uuid = u.toString();
@@ -432,6 +438,7 @@ public class UserDataMgr {
 			return;
 			
 		}
+		
 	}
 
 }

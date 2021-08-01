@@ -136,11 +136,13 @@ public class CrateMgr {
 	
 	//Saves crate inventory
 	public void saveCrate(Inventory i) {
+		
 		/*
 		 * The Inventory class structure is not serializable, so we'll have to get creative
 		 * We'll save the ItemStacks and the size of the inventory and construct it from there
 		 * This also saves minutes amount of data by not saving null entries.
 		 */
+		
 		CrateInvHolder cih = (CrateInvHolder) i.getHolder();
 		String name = cih.getCrateName();
 		int size = i.getSize();
@@ -152,6 +154,7 @@ public class CrateMgr {
 		}
 		
 		saveCrateData();
+		
 	}
 	
 	//Recall crate inventory
@@ -185,8 +188,11 @@ public class CrateMgr {
 	 * Creates an actual crate item that can be right clicked to extract contents
 	 * I went ahead and used a NBT library for the sake of convenience and speed, but there are alternate ways to do this
 	 */
+	
 	public ItemStack generateCrateItem(String name) {
+		
 		try {
+			
 			ItemStack crate = new ItemStack(Material.CHEST);
 			ItemMeta crateMeta = crate.getItemMeta();
 			crateMeta.setDisplayName(ChatColor.translateAlternateColorCodes('&', "&b" + name));
@@ -197,19 +203,26 @@ public class CrateMgr {
 			crate = nbti.getItem();
 			
 			return crate;
+			
 		} catch (Exception e) {
+			
 			Bukkit.getLogger().severe("Error creating crate item! Please ensure you have NBTAPI installed!");
 			e.printStackTrace();
 			return null;
+			
 		}
+		
 	}
 	
 	/*
 	 * This function verifies if an item is a crate item
 	 * A.K.A., whether the plugin should care if someone right clicks it
 	 */
+	
 	public boolean isCrateItem(ItemStack item) {
+		
 		NBTItem nbti = new NBTItem(item);
+		
 		if(nbti.getString("CrateRef") != null) {
 			if(nbti.getString("CrateRef") != "") {
 				return true;
@@ -217,5 +230,6 @@ public class CrateMgr {
 		}
 		
 		return false;
+		
 	}
 }

@@ -44,6 +44,7 @@ public class Listeners implements Listener {
 	 * Inventory Listeners
 	 * These listeners handle the creation, editing, and opening of crates
 	 */
+	
 	List<UUID> editing = new ArrayList<UUID>();
 	
 	@EventHandler
@@ -70,6 +71,7 @@ public class Listeners implements Listener {
 				for(int i = cmgr.getMaxItemsPerCrate(); i < e.getInventory().getSize(); i++) {
 					e.getInventory().setItem(i, cratemgr.unavailableItem());
 				}
+				
 			}
 		}
 	}
@@ -165,10 +167,12 @@ public class Listeners implements Listener {
 		editing.remove(e.getPlayer().getUniqueId());
 		
 		return;
+		
 	}
 	
 	@EventHandler
 	public void interact(PlayerInteractEvent e) {
+		
 		if(e.getItem() == null) {
 			return;
 		}
@@ -199,6 +203,7 @@ public class Listeners implements Listener {
 			 * SQL calls can slow down opening crates by a couple seconds.
 			 * While this isn't major, it's noticeable and I don't want to make calls where it's not necessary.
 			 */
+			
 			if(!p.hasPermission("crates.bypass")) {
 				Connection conn = usrdmgr.establishConnection();
 				
@@ -232,6 +237,7 @@ public class Listeners implements Listener {
 				usrdmgr.closeConn(conn);
 				
 				return;
+				
 			}else {
 				
 				openCrate(e.getItem(), p);
@@ -243,6 +249,7 @@ public class Listeners implements Listener {
 	
 	//Container function that makes sure code isn't mirrored from bypass & non-bypass operations
 	private void openCrate(ItemStack is, Player p) {
+		
 		NBTItem nbti = new NBTItem(is);
 		String crateName = nbti.getString("CrateRef");
 		
@@ -266,6 +273,7 @@ public class Listeners implements Listener {
 		
 		//Tell player they've opened crate
 		p.sendMessage(cmgr.configMsg("CrateOpened").replaceAll("~cratename~", crateName));
+		
 	}
 
 }

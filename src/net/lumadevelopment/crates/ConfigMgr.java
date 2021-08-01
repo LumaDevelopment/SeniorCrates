@@ -18,7 +18,6 @@ public class ConfigMgr {
 	
 	//This function intiializes default configuration values
 	public void initializeConfiguration() {
-		
 		File config = new File("plugins/SeniorCrates/config.yml");
 		
 		if(!config.exists()) {

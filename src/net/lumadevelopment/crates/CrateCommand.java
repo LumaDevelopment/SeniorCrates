@@ -72,15 +72,19 @@ public class CrateCommand implements CommandExecutor {
 					usrdmgr.closeConn(conn);
 					
 					sender.sendMessage(cmgr.configMsg("NewDay"));
+					
 				} else {
+					
 					sender.sendMessage(cmgr.configMsg("InsufficientPermissions"));
 					return true;
+					
 				}
 				
 			} else if(args[0].equalsIgnoreCase("list")) {
 				
 				//List all existing crates
 				if(sender.hasPermission("crates.admin.list")) {
+					
 					String msg = cmgr.configMsg("ListCrates");
 					
 					for(String s : cratemgr.getCrateIndex()) {
@@ -90,17 +94,25 @@ public class CrateCommand implements CommandExecutor {
 					}
 					
 					sender.sendMessage(msg);
+					
 				}else {
+					
 					sender.sendMessage(cmgr.configMsg("InsufficientPermissions"));
 					return true;
+					
 				}
+				
 			} else if(args[0].equalsIgnoreCase("debug")) {
 				
 				if(sender.hasPermission("crates.admin.debug")) {
+					
 					sender.sendMessage(cmgr.getPrefix() + "Debug: " + String.valueOf(cmgr.toggleDebug()));
+					
 				} else {
+					
 					//Invalid usage handler
 					sender.sendMessage(cmgr.configMsg("InvalidCommandUsage"));
+					
 				}
 				
 			} else {
@@ -109,6 +121,7 @@ public class CrateCommand implements CommandExecutor {
 				sender.sendMessage(cmgr.configMsg("InvalidCommandUsage"));
 				
 			}
+			
 		} else {
 			if(args[0].equalsIgnoreCase("create")) {
 				
@@ -273,10 +286,12 @@ public class CrateCommand implements CommandExecutor {
 						.replaceAll("~cratename~", crateName));
 				
 			} else {
+				
 				//Invalid usage handler
 				sender.sendMessage(cmgr.configMsg("InvalidCommandUsage"));
 				
 				return true;
+				
 			}
 		}
 		
