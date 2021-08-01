@@ -1,6 +1,4 @@
 #Prefix that can be displayed in all configurable messages by using the placeholder "~prefix~" (without the quotes)
-#This prefix also goes before the crate name in crate editing inventories
-#It is recommended, to avoid conflicts or exploits, to set this to something other than ""
 Prefix: "&8[&bSenior&3Crates&8] &r"
 
 #Credentials for connecting to the SQL server required for player data
