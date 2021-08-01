@@ -27,6 +27,7 @@ public class SeniorCrates extends JavaPlugin {
 	 * 
 	 * Data Holders
 	 * SQLInfo.java - Condenses SQL connection info into a single class to make it easier to manage (1 object vs. 5 strings)
+	 * CrateInvHolder.java - Makes sure that editing inventories can be tracked across versions
 	 */
 	
 	private ConfigMgr cmgr;
@@ -39,7 +40,7 @@ public class SeniorCrates extends JavaPlugin {
 	public void onEnable() {
 		cmgr = new ConfigMgr(this);
 		usrdmgr = new UserDataMgr(cmgr);
-		cratemgr = new CrateMgr(cmgr);
+		cratemgr = new CrateMgr();
 		
 		//If a configuration file doesn't exist, create it
 		cmgr.initializeConfiguration();

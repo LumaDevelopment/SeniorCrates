@@ -23,13 +23,8 @@ public class CrateMgr {
 	 * This class manages saving and retrieving crate info to the 'crates.yml' file
 	 */
 	
-	private ConfigMgr cmgr;
 	private File cratesDataFile;
 	private FileConfiguration cratesData;
-	
-	public CrateMgr(ConfigMgr cmgr) {
-		this.cmgr = cmgr;
-	}
 	
 	public FileConfiguration getCratesConfig() {
 		return cratesData;
@@ -146,7 +141,8 @@ public class CrateMgr {
 		 * We'll save the ItemStacks and the size of the inventory and construct it from there
 		 * This also saves minutes amount of data by not saving null entries.
 		 */
-		String name = i.getName().substring(cmgr.getPrefix().length());
+		CrateInvHolder cih = (CrateInvHolder) i.getHolder();
+		String name = cih.getCrateName();
 		int size = i.getSize();
 		
 		cratesData.set(name + ".InvSize", size);
@@ -161,7 +157,7 @@ public class CrateMgr {
 	//Recall crate inventory
 	public Inventory getCrate(String name) {
 		int size = cratesData.getInt(name + ".InvSize");
-		Inventory inv = Bukkit.createInventory(null, size, cmgr.getPrefix() + name);
+		Inventory inv = Bukkit.createInventory(new CrateInvHolder(name), size, name);
 		
 		for(int i = 0; i < size; i++) {
 			inv.setItem(i, cratesData.getItemStack(name + "." + String.valueOf(i)));

@@ -143,7 +143,6 @@ public class CrateCommand implements CommandExecutor {
 				cratemgr.addToIndex(name);
 				
 				//Properly construct inventory size
-				String invName = cmgr.getPrefix() + name;
 				Integer baseSize = cmgr.getMaxItemsPerCrate();
 				Integer finalSize;
 				
@@ -160,7 +159,7 @@ public class CrateCommand implements CommandExecutor {
 				}
 				
 				//Create Crate Inventory
-				Inventory editCrate = Bukkit.createInventory(null, finalSize, invName);
+				Inventory editCrate = Bukkit.createInventory(new CrateInvHolder(name), finalSize, name);
 				
 				p.openInventory(editCrate);
 				

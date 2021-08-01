@@ -2,7 +2,6 @@ package net.lumadevelopment.crates;
 
 import java.sql.Connection;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,23 +44,15 @@ public class Listeners implements Listener {
 	 * Inventory Listeners
 	 * These listeners handle the creation, editing, and opening of crates
 	 */
-	
-	//This is a slightly scuffed method of making sure that anyone in an editing inventory doesn't lose any of their items while editing
-	HashMap<UUID, HashMap<Integer, ItemStack>> playerInvs = new HashMap<UUID, HashMap<Integer, ItemStack>>();
+	List<UUID> editing = new ArrayList<UUID>();
 	
 	@EventHandler
 	public void inventoryOpen(InventoryOpenEvent e) {
 		
 		//Check to see if it's an edit inventory
-		if(e.getInventory().getName().startsWith(cmgr.getPrefix())) {
+		if(e.getInventory().getHolder() instanceof CrateInvHolder) {
 			
-			HashMap<Integer, ItemStack> items = new HashMap<Integer, ItemStack>();
-			
-			for(int i = 0; i < e.getPlayer().getInventory().getSize(); i++) {
-				items.put(i, e.getPlayer().getInventory().getItem(i));
-			}
-			
-			playerInvs.put(e.getPlayer().getUniqueId(), items);
+			editing.add(e.getPlayer().getUniqueId());
 			
 			boolean nonNull = false;
 			
@@ -85,6 +76,7 @@ public class Listeners implements Listener {
 	
 	@EventHandler
 	public void inventoryInteraction(InventoryClickEvent e) {
+		
 		//Make sure the interactor is a Player
 		if(!(e.getWhoClicked() instanceof Player)) {
 			return;
@@ -95,16 +87,24 @@ public class Listeners implements Listener {
 			return;
 		}
 		
-		//Make sure this is an editing inventory
-		if(!e.getClickedInventory().getName().startsWith(cmgr.getPrefix())) {
+		//Check if inventory is from this plugin
+		if(!(e.getClickedInventory().getHolder() instanceof CrateInvHolder)) {
 			return;
 		}
 		
 		e.setCancelled(true);
 		
 		//Make sure the player isn't trying to modify an unavailable slot
-		if((e.getCursor().equals(cratemgr.unavailableItem())) || (e.getCurrentItem().equals(cratemgr.unavailableItem()))) {
-			return;
+		if(e.getCursor() != null) {
+			if(e.getCursor().equals(cratemgr.unavailableItem())) {
+				return;
+			}
+		}
+		
+		if(e.getCurrentItem() != null) {
+			if(e.getCurrentItem().equals(cratemgr.unavailableItem())) {
+				return;
+			}
 		}
 		
 		if(!e.getClick().equals(ClickType.LEFT)) {
@@ -121,15 +121,16 @@ public class Listeners implements Listener {
 	//Prevents any duplication glitches
 	@EventHandler
 	public void dropItem(PlayerDropItemEvent e) {
-		if(playerInvs.containsKey(e.getPlayer().getUniqueId())) {
+		if(editing.contains(e.getPlayer().getUniqueId())) {
 			e.setCancelled(true);
 		}
 	}
 	
 	@EventHandler
 	public void closeInventory(InventoryCloseEvent e) {
-		//Making sure this is an edit inventory
-		if(!e.getInventory().getName().startsWith(cmgr.getPrefix())) {
+		
+		//Check if inventory is from this plugin
+		if(!(e.getInventory().getHolder() instanceof CrateInvHolder)) {
 			return;
 		}
 		
@@ -144,7 +145,8 @@ public class Listeners implements Listener {
 			}
 		}
 		
-		String name = e.getInventory().getName().substring(cmgr.getPrefix().length());
+		CrateInvHolder civ = (CrateInvHolder) e.getInventory().getHolder();
+		String name = civ.getCrateName();
 		
 		//If blank, delete the crate. If modified/created, save accordingly
 		if(nonUnav.size() == 0) {
@@ -160,13 +162,7 @@ public class Listeners implements Listener {
 			cratemgr.saveCrate(e.getInventory());
 		}
 		
-		//Restore Player's Inventory after editing just in case anything got lost
-		if(playerInvs.containsKey(e.getPlayer().getUniqueId())) {
-			HashMap<Integer, ItemStack> map = playerInvs.get(e.getPlayer().getUniqueId());
-			for(int i = 0; i < e.getPlayer().getInventory().getSize(); i++) {
-				e.getPlayer().getInventory().setItem(i, map.get(i));
-			}
-		}
+		editing.remove(e.getPlayer().getUniqueId());
 		
 		return;
 	}
